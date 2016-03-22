@@ -17,9 +17,8 @@ module.exports = function(grunt) {
       return false;
     }
 
-    var regex = /(?:"|')<!=(.+)!>(?:"|')?;/;
-    var src = grunt.file.read(this.data.template).replace(regex, function(match) {
-      var file = match.match(regex)[1].trim();
+    var src = grunt.file.read(this.data.template).replace(/(?:"|')<!=(.+)!>(?:"|')?;/g, function(match) {
+      var file = match.match(/(?:"|')<!=(.+)!>(?:"|')?;/)[1].trim();
       return grunt.file.read(file);
     });
 

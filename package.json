@@ -1,23 +1,21 @@
 {
-  "name": "grunt-contrib-concat",
-  "description": "Concatenate files.",
+  "name": "grunt-contrib-template",
+  "description": "Combine files based on a template.",
   "version": "1.0.0",
   "author": {
-    "name": "Grunt Team",
-    "url": "http://gruntjs.com/"
+    "name": "Kevin Richter"
   },
-  "repository": "gruntjs/grunt-contrib-concat",
+  "repository": "beschoenen/grunt-contrib-template",
   "license": "MIT",
   "engines": {
     "node": ">=0.10.0"
   },
-  "main": "tasks/concat.js",
+  "main": "tasks/template.js",
   "scripts": {
     "test": "grunt test"
   },
   "dependencies": {
-    "chalk": "^1.0.0",
-    "source-map": "^0.5.3"
+    "chalk": "^1.0.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

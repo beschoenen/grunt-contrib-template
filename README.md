@@ -26,7 +26,7 @@ The output file location.
 #### template.js
 ```js
 var example = function() {
-	"<%= example.js %>";
+	"<!= example.js !>";
 };
 ```
 

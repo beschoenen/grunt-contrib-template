@@ -1,7 +1,7 @@
 {
   "name": "grunt-contrib-template",
   "description": "Combine files based on a template.",
-  "version": "1.0.1",
+  "version": "1.0.1-1",
   "author": {
     "name": "Kevin Richter"
   },
@@ -11,9 +11,6 @@
     "node": ">=0.10.0"
   },
   "main": "tasks/template.js",
-  "scripts": {
-    "test": "grunt test"
-  },
   "dependencies": {
     "chalk": "^1.0.0"
   },
@@ -22,8 +19,7 @@
     "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-internal": "^0.4.2",
-    "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-nodeunit": "^0.4.0"
+    "grunt-contrib-jshint": "^1.0.0"
   },
   "peerDependencies": {
     "grunt": ">=0.4.0"
@@ -33,6 +29,5 @@
   ],
   "files": [
     "tasks"
-  ],
-  "appveyor_id": "l42173901ms416km"
+  ]
 }

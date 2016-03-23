@@ -4,22 +4,31 @@
 
 > Inspired by [grunt-contrib-concat](https://github.com/gruntjs/grunt-contrib-concat)
 
+## Installing
 
+Install the package from npm
+```js
+npm install grunt-contrib-concat --save-dev
+```
+
+Enable the task in your `gruntfile.js`
+```js
+grunt.loadNpmTasks('grunt-contrib-concat');
+```
 
 ## Template task
 
-### Options
-
-#### template
-Type: `String`  
-
-The template JavaScript file.
-
-#### dest
-Type: `String` 
-
-The output file location.
-
+```js
+// Project configuration.
+grunt.initConfig({
+  template: {
+    js: {
+      template: "template.js",
+      dest: "output.js",
+    }
+  },
+});
+```
 
 ### Example
 

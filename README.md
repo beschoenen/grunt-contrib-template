@@ -4,6 +4,8 @@
 
 > Inspired by [grunt-contrib-concat](https://github.com/gruntjs/grunt-contrib-concat)
 
+#### Now supports recursive templating!
+
 ## Installing
 
 Install the package from npm
@@ -18,6 +20,15 @@ grunt.loadNpmTasks('grunt-contrib-concat');
 
 ## Template task
 
+### Options
+
+#### Separator
+Type: `String`
+
+Default: `''`
+
+### Setup
+
 ```js
 // Project configuration.
 grunt.initConfig({
@@ -25,28 +36,39 @@ grunt.initConfig({
     js: {
       template: "template.js",
       dest: "output.js",
+      options: {
+        separator: '\n'
+      }
     }
   },
 });
 ```
+
 
 ### Example
 
 #### template.js
 ```js
 var example = function() {
-	"<!= example.js !>";
+	"<!= foo.js !>";
 };
 ```
 
-#### example.js
+#### foo.js
 ```js
-console.log("This is an example.");
+console.log("This is foo.");
+"<!= bar.js !>";
+```
+
+#### bar.js
+```js
+console.log("This is bar.");
 ```
 
 #### output.js
 ```js
 var example = function() {
-	console.log("This is an example.");
+	console.log("This is foo.");
+	console.log("This is bar.");
 };
 ```

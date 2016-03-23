@@ -1,7 +1,7 @@
 {
   "name": "grunt-contrib-template",
   "description": "Combine files based on a template.",
-  "version": "1.0.1-1",
+  "version": "1.1.0",
   "author": {
     "name": "Kevin Richter"
   },
@@ -12,7 +12,8 @@
   },
   "main": "tasks/template.js",
   "dependencies": {
-    "chalk": "^1.0.0"
+    "chalk": "^1.0.0",
+    "parse-filepath": "^0.6.3"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

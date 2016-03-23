@@ -24,10 +24,10 @@ module.exports = function(grunt) {
 
     // Recursively resolve the template
     var getSourceCode = function(filepath) {
-      var globalRegex = /(?:"|')<!=(.+)!>(?:"|')?;/g;
+      var globalRegex = /(?:["'])<!=\s*(.+)\b\s*!>(?:["'])?;/g;
 
       return grunt.file.read(filepath).replace(globalRegex, function(match) {
-        var file = match.match(/(?:"|')<!=(.+)!>(?:"|')?;/)[1].trim();
+        var file = match.match(/(?:["'])<!=\s*(.+)\b\s*!>(?:["'])?;/)[1];
 
         var fileObject = parsePath(filepath);
         var newFile = (fileObject.dirname + "/" + file).replace(/^\/|\/$/g, '');

@@ -10,12 +10,12 @@
 
 Install the package from npm
 ```js
-npm install grunt-contrib-concat --save-dev
+npm install grunt-contrib-template --save-dev
 ```
 
 Enable the task in your `gruntfile.js`
 ```js
-grunt.loadNpmTasks('grunt-contrib-concat');
+grunt.loadNpmTasks('grunt-contrib-template');
 ```
 
 ## Template task

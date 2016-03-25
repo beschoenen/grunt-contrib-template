@@ -10,7 +10,8 @@ module.exports = function(grunt) {
     var files = 0;
 
     var options = this.options({
-      separator: ''
+      separator: '',
+      defaultExtension: '.js'
     });
 
     if(!this.data.template) {
@@ -22,27 +23,38 @@ module.exports = function(grunt) {
     }
 
     // Recursively resolve the template
-    var getSourceCode = function(filepath, section) {
+    function getSourceCode(filepath, section) {
       var fileRegex = /(?:["'])<!=\s*(.+)\b\s*!>(?:["'])?;/;
+      var fileExtRegex = /\..+$/;
 
-      return grunt.file.read(filepath).replace(RegExp(fileRegex.source, "g"), function(match) {
-        files++;
+      return grunt.file.read(filepath).replace(new RegExp(fileRegex.source, "g"), function(match) {
+        files++; // Log the number of imports we did
+
+        // Get the filename
         var file = match.match(fileRegex)[1];
+        // Check if it has an extension
+        if(file.match(fileExtRegex) === null) {
+          file += options.defaultExtension; // Add it
+        }
 
+        // Parse the file path
         var fileObject = parsePath(filepath);
+        // trim slashes from the file path
         var newFile = (fileObject.dirname + "/" + file).replace(/^\/|\/$/g, '');
 
+        // Read file
         var src = grunt.file.read(newFile);
 
+        // Check if it has imports too
         return (function() {
-          if(globalRegex.test(src)) {
-            return getSourceCode(newFile);
-          } else {
-            return src;
-          }
-        })() + options.separator;
+              if(fileRegex.test(src)) {
+                return getSourceCode(newFile);
+              } else {
+                return src;
+              }
+            })() + options.separator; // Add separator
       });
-    };
+    }
 
     // Make the template
     var src = getSourceCode(this.data.template);

@@ -37,7 +37,8 @@ grunt.initConfig({
       template: "template.js",
       dest: "output.js",
       options: {
-        separator: '\n'
+        separator: '\n',
+        defaultExtension: '.js'
       }
     }
   },
@@ -47,17 +48,25 @@ grunt.initConfig({
 
 ### Example
 
+Folder structure
+```
+-- template.js
+-- app
+    |-- foo.js
+    |-- bar.js
+```
+
 #### template.js
 ```js
 var example = function() {
-	"<!= foo.js !>";
+	"<!= app/foo.js !>";
 };
 ```
 
 #### foo.js
 ```js
 console.log("This is foo.");
-"<!= bar.js !>";
+"<!= bar !>";
 ```
 
 #### bar.js

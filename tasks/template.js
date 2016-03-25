@@ -7,27 +7,27 @@ module.exports = function(grunt) {
   var parsePath = require('parse-filepath');
 
   grunt.registerMultiTask('template', 'Combine files based on a template.', function() {
+    var files = 0;
 
     var options = this.options({
       separator: ''
     });
 
     if(!this.data.template) {
-      grunt.verbose.write(chalk.red("template is required."));
-      return false;
+      grunt.fail.warn(chalk.red("template is required."));
     }
 
     if(!this.data.dest) {
-      grunt.verbose.write(chalk.red("dest is required."));
-      return false;
+      grunt.fail.warn(chalk.red("dest is required."));
     }
 
     // Recursively resolve the template
-    var getSourceCode = function(filepath) {
-      var globalRegex = /(?:["'])<!=\s*(.+)\b\s*!>(?:["'])?;/g;
+    var getSourceCode = function(filepath, section) {
+      var fileRegex = /(?:["'])<!=\s*(.+)\b\s*!>(?:["'])?;/;
 
-      return grunt.file.read(filepath).replace(globalRegex, function(match) {
-        var file = match.match(/(?:["'])<!=\s*(.+)\b\s*!>(?:["'])?;/)[1];
+      return grunt.file.read(filepath).replace(RegExp(fileRegex.source, "g"), function(match) {
+        files++;
+        var file = match.match(fileRegex)[1];
 
         var fileObject = parsePath(filepath);
         var newFile = (fileObject.dirname + "/" + file).replace(/^\/|\/$/g, '');
@@ -51,7 +51,9 @@ module.exports = function(grunt) {
     grunt.file.write(this.data.dest, src);
 
     // Print a success message.
-    grunt.verbose.write('File ' + chalk.cyan(this.data.dest) + ' created.');
+    console.log(files + ' files imported.');
+
+    grunt.log.ok('File ' + chalk.cyan(this.data.dest) + ' created.');
   });
 
 };

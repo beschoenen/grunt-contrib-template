@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 
   // Internal lib.
   var chalk = require('chalk');
-  var parsePath = require('parse-filepath');
+  var glob = require('glob');
 
   grunt.registerMultiTask('template', 'Combine files based on a template.', function() {
     var files = 0;
@@ -13,6 +13,9 @@ module.exports = function(grunt) {
       separator: '',
       defaultExtension: '.js'
     });
+
+    // get the folder of the template
+    var startDir = this.data.template.substring(0, this.data.template.lastIndexOf("/") + 1)
 
     if(!this.data.template) {
       grunt.fail.warn(chalk.red("template is required."));
@@ -32,31 +35,37 @@ module.exports = function(grunt) {
 
         // Get the filename
         var file = match.match(fileRegex)[1];
+
         // Check if it has an extension
         if(file.match(fileExtRegex) === null) {
           file += options.defaultExtension; // Add it
         }
 
-        // Parse the file path
-        var fileObject = parsePath(filepath);
-        // trim slashes from the file path
-        var newFile = (fileObject.dirname + "/" + file).replace(/^\/|\/$/g, '');
+        // Add the start directory
+        file = startDir + file;
 
-        // Read file
-        var src = grunt.file.read(newFile);
+        var source = "";
 
-        // Check if it has imports too
-        return (function() {
-              if(fileRegex.test(src)) {
-                return getSourceCode(newFile);
-              } else {
-                return src;
-              }
-            })() + options.separator; // Add separator
+        // Loop through files
+        glob.sync(file).forEach(function(filename) {
+          // Read file
+          var src = grunt.file.read(filename);
+
+          // Check if it has imports too
+          source += (function() {
+                if(fileRegex.test(src)) {
+                  return getSourceCode(filename);
+                } else {
+                  return src;
+                }
+              })() + options.separator; // Add separator
+        });
+
+        return source;
       });
     }
 
-    // Make the template
+    // Build the template
     var src = getSourceCode(this.data.template);
 
     // Write the destination file.

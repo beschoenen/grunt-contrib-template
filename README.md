@@ -2,30 +2,33 @@
 
 > Combine JavaScript files based on a template.
 
-> Inspired by [grunt-contrib-concat](https://github.com/gruntjs/grunt-contrib-concat)
+Inspired by [grunt-contrib-concat](https://github.com/gruntjs/grunt-contrib-concat)
 
-#### Now supports recursive templating!
+Running a beautifier after the process is recommended
 
 ## Installing
 
 Install the package from npm
-```js
-npm install grunt-contrib-template --save-dev
-```
+
+`npm install grunt-contrib-template --save-dev`
 
 Enable the task in your `gruntfile.js`
-```js
-grunt.loadNpmTasks('grunt-contrib-template');
-```
+
+`grunt.loadNpmTasks('grunt-contrib-template');`
 
 ## Template task
 
 ### Options
 
-#### Separator
+#### separator
 Type: `String`
 
 Default: `''`
+
+#### defaultExtension
+Type `String`
+
+Default `'.js'`
 
 ### Setup
 
@@ -37,7 +40,7 @@ grunt.initConfig({
       template: "template.js",
       dest: "output.js",
       options: {
-        separator: '\n',
+        separator: '',
         defaultExtension: '.js'
       }
     }

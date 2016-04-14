@@ -7,31 +7,38 @@ module.exports = function(grunt) {
   var glob = require('glob');
 
   grunt.registerMultiTask('template', 'Combine files based on a template.', function() {
+    // Keep track of the number of files we replace/imported
     var files = 0;
 
+    // Default settings
     var options = this.options({
       separator: '',
       defaultExtension: '.js'
     });
 
-    // get the folder of the template
-    var startDir = this.data.template.substring(0, this.data.template.lastIndexOf("/") + 1)
-
+    // Check if the required parameters are filled out
     if(!this.data.template) {
-      grunt.fail.warn(chalk.red("template is required."));
+      grunt.fail.fatal(chalk.red("template is required."));
     }
 
     if(!this.data.dest) {
-      grunt.fail.warn(chalk.red("dest is required."));
+      grunt.fail.fatal(chalk.red("dest is required."));
     }
 
+    // Get the folder of the template
+    var startDir = this.data.template.substring(0, this.data.template.lastIndexOf("/") + 1);
+
     // Recursively resolve the template
-    function getSourceCode(filepath, section) {
+    function getSourceCode(filepath) {
+      // Regex for file import
       var fileRegex = /(?:["'])<!=\s*(.+)\b\s*!>(?:["'])?;/;
+      // Regex for file extension
       var fileExtRegex = /\..+$/;
 
+      // Read the file and check if anything should be imported into it; loop through them
       return grunt.file.read(filepath).replace(new RegExp(fileRegex.source, "g"), function(match) {
-        files++; // Log the number of imports we did
+        // Log the number of imports we did
+        files += 1;
 
         // Get the filename
         var file = match.match(fileRegex)[1];
@@ -41,26 +48,18 @@ module.exports = function(grunt) {
           file += options.defaultExtension; // Add it
         }
 
-        // Add the start directory
-        file = startDir + file;
-
         var source = "";
 
-        // Loop through files
-        glob.sync(file).forEach(function(filename) {
+        // Loop through filesI
+        glob.sync(startDir + file).forEach(function(filename) {
           // Read file
           var src = grunt.file.read(filename);
 
           // Check if it has imports too
           source += (function() {
-                if(fileRegex.test(src)) {
-                  return getSourceCode(filename);
-                } else {
-                  return src;
-                }
+                return fileRegex.test(src) ? getSourceCode(filename) : src;
               })() + options.separator; // Add separator
         });
-
         return source;
       });
     }
@@ -72,8 +71,9 @@ module.exports = function(grunt) {
     grunt.file.write(this.data.dest, src);
 
     // Print a success message.
-    console.log(files + ' files imported.');
+    grunt.log.writeln(files + ' files imported.');
 
+    // Print final "file created" message
     grunt.log.ok('File ' + chalk.cyan(this.data.dest) + ' created.');
   });
 

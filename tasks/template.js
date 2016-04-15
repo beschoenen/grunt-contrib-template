@@ -25,11 +25,11 @@ module.exports = function(grunt) {
       grunt.fail.fatal(chalk.red("dest is required."));
     }
 
-    // Get the folder of the template
-    var startDir = this.data.template.substring(0, this.data.template.lastIndexOf("/") + 1);
-
     // Recursively resolve the template
     function getSourceCode(filepath) {
+      // The current folder
+      var dir = filepath.substring(0, filepath.lastIndexOf("/") + 1);
+
       // Regex for file import
       var fileRegex = /(?:["'])<!=\s*(.+)\b\s*!>(?:["'])?;/;
       // Regex for file extension
@@ -50,8 +50,8 @@ module.exports = function(grunt) {
 
         var source = "";
 
-        // Loop through filesI
-        glob.sync(startDir + file).forEach(function(filename) {
+        // Loop through files
+        glob.sync(dir + file).forEach(function(filename) {
           // Read file
           var src = grunt.file.read(filename);
 

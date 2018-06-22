@@ -31,7 +31,7 @@ module.exports = function(grunt) {
       var dir = filepath.substring(0, filepath.lastIndexOf("/") + 1);
 
       // Regex for file import
-      var fileRegex = /(?:["'])<!=\s*(.+)\b\s*!>(?:["'])?;/;
+      var fileRegex = /(?:["'])<!=\s*(.+)\b\s*!>(?:["'])?/;
       // Regex for file extension
       var fileExtRegex = /\..+$/;
 
